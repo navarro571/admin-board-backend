@@ -32,7 +32,6 @@ class UserService {
         const client = await this.pool.connect()
         try {
             const res = await client.query('SELECT * FROM users WHERE id = $1', [id]);
-            console.log(res);
             return res;
         } catch (e) {
             throw e;
@@ -47,7 +46,6 @@ class UserService {
             const res = await client.query(`INSERT INTO "users" ("name", "lastname", "email", "role") 
             VALUES ($1, $2, $3, $4)
             RETURNING id;`, [ data.name, data.lastname, data.email, data.role ]);
-            console.log(res);
             return  {
                 id: res.rows[0],
                 success: true,
