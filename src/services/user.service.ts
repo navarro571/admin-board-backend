@@ -59,16 +59,32 @@ class UserService {
         }
     }
 
-    async update(data: UserData): Promise<ServiceResponse> {
-        return {
-            id: 0,
-            success: true,
-        };
+    async update(data: UserData): Promise<QueryResult<any>> {
+        const client = await this.pool.connect()
+        try {
+            const res = await client.query(`UPDATE users
+            SET name = $1, lastname = $2, role = $3
+            WHERE email = $4;`, 
+            [data.name, data.lastname, data.role, data.email]);
+            return res;
+        } catch (e) {
+            throw e;
+        } finally {
+            client.release();
+        }
     }
     
-    async delete(id: Number): Promise<ServiceResponse> {
-        return {
-            success: true,
+    async delete(id: Number): Promise<QueryResult<any>> {
+        const client = await this.pool.connect()
+        try {
+            const res = await client.query(`DELETE FROM users
+            WHERE id = $1;`, 
+            [id]);
+            return res;
+        } catch (e) {
+            throw e;
+        } finally {
+            client.release();
         }
     }
 }
