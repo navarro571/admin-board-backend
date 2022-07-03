@@ -1,4 +1,6 @@
-import express, { Express, NextFunction, Request, response, Response } from "express";
+import express, { Express, NextFunction, Request, Response } from "express";
+import schemaValidator from "../middleware/schema-validator";
+import { createUser, updateUser } from "../schema/user.schema";
 import UserService from "../services/user.service";
 
 const router = express.Router();
@@ -27,7 +29,9 @@ router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-router.put("/:id", async (req: Request, res: Response, next: NextFunction) => {
+router.put("/:id", 
+  schemaValidator(updateUser, "body"),
+  async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user = await service.update(req.body);
     res.status(200).json({
@@ -38,7 +42,9 @@ router.put("/:id", async (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-router.post("/", async (req: Request, res: Response, next: NextFunction) => {
+router.post("/",
+  schemaValidator(createUser, "body"),
+  async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user = await service.create(req.body);
     res.status(200).json({
@@ -49,12 +55,12 @@ router.post("/", async (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-router.delete("/:id", (req: Request, res: Response, next: NextFunction) => {
+router.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
-    const user = service.delete(Number(id));
+    const response = await service.delete(+id);
     res.status(200).json({
-      user: user
+      response
     });
   } catch (e) {
     next(e);

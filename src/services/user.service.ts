@@ -47,7 +47,7 @@ class UserService {
             VALUES ($1, $2, $3, $4)
             RETURNING id;`, [ data.name, data.lastname, data.email, data.role ]);
             return  {
-                id: res.rows[0],
+                id: res.rows[0].id,
                 success: true,
             };
         } catch (e) {
@@ -72,13 +72,16 @@ class UserService {
         }
     }
     
-    async delete(id: Number): Promise<QueryResult<any>> {
+    async delete(id: Number): Promise<any> {
         const client = await this.pool.connect()
         try {
-            const res = await client.query(`DELETE FROM users
+            await client.query(`DELETE FROM users
             WHERE id = $1;`, 
             [id]);
-            return res;
+            return {
+                user: id,
+                removed: true
+            };
         } catch (e) {
             throw e;
         } finally {

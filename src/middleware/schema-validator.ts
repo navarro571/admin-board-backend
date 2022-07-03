@@ -1,4 +1,4 @@
-import { NextFunction } from "express";
+import { NextFunction, Response } from "express";
 import { Schema } from "joi";
 import boom from "@hapi/boom";
 
@@ -9,6 +9,6 @@ export default function schemaValidator(schema: Schema, property: string) {
         if(error) {
             next(boom.badRequest(error.message));
         }
-        next(data);
+        next();
     }
 }
