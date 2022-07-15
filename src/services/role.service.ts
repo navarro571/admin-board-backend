@@ -39,13 +39,13 @@ class RoleService {
             client.release();
         }
     }
-    
+
     async create(data: RoleData): Promise<ServiceResponse> {
         const client = await this.pool.connect()
         try {
-            const res = await client.query(`INSERT INTO "roles" ("name") 
-            VALUES ($1)
-            RETURNING id;`, [ data.name]);
+            const res = await client.query(`INSERT INTO "roles" ("name", "authorization_level")
+            VALUES ($1, $2)
+            RETURNING id;`, [ data.name, data.authorizationLevel]);
             return  {
                 id: res.rows[0],
                 success: true,
@@ -62,7 +62,7 @@ class RoleService {
         try {
             const res = await client.query(`UPDATE roles
             SET name = $1
-            WHERE id = $2;`, 
+            WHERE id = $2;`,
             [data.name, data.id]);
             return res;
         } catch (e) {
@@ -71,12 +71,12 @@ class RoleService {
             client.release();
         }
     }
-    
+
     async delete(id: Number): Promise<QueryResult<any>> {
         const client = await this.pool.connect()
         try {
             const res = await client.query(`DELETE FROM roles
-            WHERE id = $1;`, 
+            WHERE id = $1;`,
             [id]);
             return res;
         } catch (e) {

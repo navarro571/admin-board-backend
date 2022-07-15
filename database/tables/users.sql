@@ -1,7 +1,3 @@
--- Table: public.users
-
--- DROP TABLE IF EXISTS public.users;
-
 CREATE TABLE IF NOT EXISTS public.users
 (
     id integer SERIAL,
@@ -9,11 +5,13 @@ CREATE TABLE IF NOT EXISTS public.users
     email character varying(255) COLLATE pg_catalog."default" NOT NULL,
     name character varying(255) COLLATE pg_catalog."default" NOT NULL,
     lastname character varying(255) COLLATE pg_catalog."default",
+    password character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    auth_token character varying(255) COLLATE pg_catalog."default",
     CONSTRAINT users_pkey PRIMARY KEY (id),
-    CONSTRAINT email UNIQUE (email)
+    CONSTRAINT email UNIQUE (email),
+    CONSTRAINT role FOREIGN KEY (role)
+        REFERENCES public.roles (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
 )
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.users
-    OWNER to postgres;

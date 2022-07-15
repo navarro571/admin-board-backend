@@ -3,6 +3,7 @@ interface UserData {
     name?: String,
     lastname?: String,
     email?: String,
+    password?: String,
     role?: Number
 }
 

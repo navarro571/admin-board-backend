@@ -39,13 +39,13 @@ class UserService {
             client.release();
         }
     }
-    
+
     async create(data: UserData): Promise<ServiceResponse> {
         const client = await this.pool.connect()
         try {
-            const res = await client.query(`INSERT INTO "users" ("name", "lastname", "email", "role") 
-            VALUES ($1, $2, $3, $4)
-            RETURNING id;`, [ data.name, data.lastname, data.email, data.role ]);
+            const res = await client.query(`INSERT INTO "users" ("name", "lastname", "email", "password", "role")
+            VALUES ($1, $2, $3, $4, $5)
+            RETURNING id;`, [ data.name, data.lastname, data.email, data.password, data.role ]);
             return  {
                 id: res.rows[0].id,
                 success: true,
@@ -62,7 +62,7 @@ class UserService {
         try {
             const res = await client.query(`UPDATE users
             SET name = $1, lastname = $2, role = $3
-            WHERE email = $4;`, 
+            WHERE email = $4;`,
             [data.name, data.lastname, data.role, data.email]);
             return res;
         } catch (e) {
@@ -71,12 +71,12 @@ class UserService {
             client.release();
         }
     }
-    
+
     async delete(id: Number): Promise<any> {
         const client = await this.pool.connect()
         try {
             await client.query(`DELETE FROM users
-            WHERE id = $1;`, 
+            WHERE id = $1;`,
             [id]);
             return {
                 user: id,

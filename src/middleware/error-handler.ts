@@ -29,7 +29,7 @@ function fatalErrorHandler(err: ReqError, req: Request, res: Response, next: Nex
     next(err);
 }
 
-export { 
+export {
     errorHandlerLog,
     ormErrorHandler,
     fatalErrorHandler
