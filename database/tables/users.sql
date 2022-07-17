@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS public.users
     name character varying(255) COLLATE pg_catalog."default" NOT NULL,
     lastname character varying(255) COLLATE pg_catalog."default",
     password character varying(255) COLLATE pg_catalog."default" NOT NULL,
-    auth_token character varying(255) COLLATE pg_catalog."default",
+    recovery_token character varying(255) COLLATE pg_catalog."default",
     CONSTRAINT users_pkey PRIMARY KEY (id),
     CONSTRAINT email UNIQUE (email),
     CONSTRAINT role FOREIGN KEY (role)

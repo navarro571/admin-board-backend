@@ -4,7 +4,8 @@ interface UserData {
     lastname?: String,
     email?: String,
     password?: String,
-    role?: Number
+    role?: Number,
+    recovery_token?: Number
 }
 
 
