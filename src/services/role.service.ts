@@ -79,7 +79,7 @@ class RoleService {
       );
       if(res.rowCount > 0) {
         return {
-            user: id,
+            role: id,
             removed: true,
         };
       } else {

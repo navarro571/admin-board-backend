@@ -11,7 +11,9 @@ router.post(
       res.status(200).json({
         sessionToken: req.user,
       });
-    } catch (error) {}
+    } catch (error) {
+      next(error);
+    }
     res.status(200);
   }
 );
