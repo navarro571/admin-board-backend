@@ -12,7 +12,6 @@ const service = new UserService();
 
 router.get(
   "/",
-  passport.authenticate("jwt", { session: false }),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const users = await service.get();
@@ -61,7 +60,6 @@ router.put(
 
 router.post(
   "/",
-  passport.authenticate("jwt", { session: false }),
   schemaValidator(createUser, "body"),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
