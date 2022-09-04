@@ -66,6 +66,7 @@ router.post(
       const user = await service.create(req.body);
       res.status(200).json({
         user: user,
+        statusCode: 200
       });
     } catch (e) {
       next(e);

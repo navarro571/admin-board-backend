@@ -94,7 +94,7 @@ class UserService {
         `INSERT INTO "users" ("name", "lastname", "email", "password", "role")
             VALUES ($1, $2, $3, $4, $5)
             RETURNING id;`,
-        [data.name, data.lastname, data.email, data.password, data.role]
+        [data.name, data.lastname, data.email, data.password, data.role || 1]
       );
       return {
         id: res.rows[0].id,

@@ -11,7 +11,7 @@ const createUser = joi.object({
     lastname: lastname.required(),
     email: email.required(),
     password: password.required(),
-    role: role.required()
+    role: role
 });
 
 const updateUser = joi.object({
