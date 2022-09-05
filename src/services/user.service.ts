@@ -21,7 +21,7 @@ class UserService {
   async get(): Promise<QueryResult<any>> {
     const client = await this.pool.connect();
     try {
-      const res = await client.query("SELECT * FROM users");
+      const res = await client.query("SELECT id,name,lastname,email from users");
       return res;
     } finally {
       client.release();
@@ -31,7 +31,7 @@ class UserService {
   async tryLogin(username: String, password: String) {
     const client = await this.pool.connect();
     try {
-      const res = await client.query("SELECT * FROM users WHERE email = $1", [
+      const res = await client.query("SELECT id,name,lastname,email FROM users WHERE email = $1", [
         username,
       ]);
       if (res.rows.length) {
@@ -68,7 +68,7 @@ class UserService {
   async find(id: Number): Promise<QueryResult<any>> {
     const client = await this.pool.connect();
     try {
-      const res = await client.query("SELECT * FROM users WHERE id = $1", [id]);
+      const res = await client.query("SELECT id,name,lastname,email FROM users WHERE id = $1", [id]);
       const user = res.rows[0];
       if (!user) {
         throw boom.notFound(`User with the id ${id} not found`);
