@@ -20,6 +20,8 @@ class RoleService {
     const client = await this.pool.connect();
     try {
       const res = await client.query("SELECT * FROM roles");
+      console.log("get-----------------------");
+      console.log(res);
       return res;
     } finally {
       client.release();
